@@ -5,15 +5,15 @@ import cv2
 import os
 from stylize import stylize_folder_single, stylize_folder
 
-VIDEO_NAME = "dance.mp4"
+VIDEO_NAME = "cat.mp4"
 FRAME_SAVE_PATH = "frames/"
 FRAME_CONTENT_FOLDER = "content_folder/"
 FRAME_BASE_FILE_NAME = "frame"
 FRAME_BASE_FILE_TYPE = ".jpg"
 STYLE_FRAME_SAVE_PATH = "style_frames/"
 STYLE_VIDEO_NAME = "helloworld.mp4"
-STYLE_PATH = "transforms/mosaic_aggressive.pth"
-BATCH_SIZE = 20
+STYLE_PATH = "transforms/udnie.pth"
+BATCH_SIZE = 5
 
 import time
 
@@ -37,7 +37,6 @@ def video_transfer(video_path, style_path):
     print("Combining style frames into one video")
     makeVideo(STYLE_FRAME_SAVE_PATH, STYLE_VIDEO_NAME, fps, int(H), int(W))
     print("Elapsed Time: {}".format(time.time()-starttime))
-    tor
 
 def getInfo(video_path):
     """
@@ -81,4 +80,5 @@ def makeVideo(frames_path, save_name, fps, height, width):
 
     print("Done writing video")
 
-video_transfer(VIDEO_NAME, STYLE_PATH)
+if __name__ == "__main__":
+    video_transfer(VIDEO_NAME, STYLE_PATH)

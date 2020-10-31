@@ -6,7 +6,7 @@ from torchvision import transforms
 import time
 import cv2
 
-STYLE_TRANSFORM_PATH = "transforms/udnie_aggressive.pth"
+STYLE_TRANSFORM_PATH = "transforms/udnie.pth"
 PRESERVE_COLOR = False
 
 def stylize():
@@ -15,7 +15,7 @@ def stylize():
 
     # Load Transformer Network
     net = transformer.TransformerNetwork()
-    net.load_state_dict(torch.load(STYLE_TRANSFORM_PATH))
+    net.load_state_dict(torch.load(STYLE_TRANSFORM_PATH, map_location=torch.device('cpu')))
     net = net.to(device)
 
     with torch.no_grad():
@@ -57,7 +57,7 @@ def stylize_folder_single(style_path, content_folder, save_folder):
 
     # Load Transformer Network
     net = transformer.TransformerNetwork()
-    net.load_state_dict(torch.load(style_path))
+    net.load_state_dict(torch.load(style_path, map_location=torch.device('cpu')))
     net = net.to(device)
 
     # Stylize every frame
@@ -112,7 +112,7 @@ def stylize_folder(style_path, folder_containing_the_content_folder, save_folder
 
     # Load Transformer Network
     net = transformer.TransformerNetwork()
-    net.load_state_dict(torch.load(style_path))
+    net.load_state_dict(torch.load(style_path, map_location=torch.device('cpu')))
     net = net.to(device)
 
     # Stylize batches of images
@@ -132,4 +132,5 @@ def stylize_folder(style_path, folder_containing_the_content_folder, save_folder
                 image_name = os.path.basename(path[i])
                 utils.saveimg(generated_image, save_folder + image_name)
 
-#stylize()
+if __name__ == "__main__":
+   stylize()
