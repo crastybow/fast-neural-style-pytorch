@@ -1,5 +1,6 @@
 import torch
 import utils
+import experimental
 import transformer
 import os
 from torchvision import transforms
@@ -79,7 +80,7 @@ def stylize_folder_single(style_path, content_folder, save_folder):
             # Save image
             utils.saveimg(generated_image, save_folder + image_name)
 
-def stylize_folder(style_path, folder_containing_the_content_folder, save_folder, batch_size=1):
+def stylize_folder(style_path, folder_containing_the_content_folder, save_folder, batch_size=1, prune_level=1.0):
     """Stylizes images in a folder by batch
     If the images  are of different dimensions, use transform.resize() or use a batch size of 1
     IMPORTANT: Put content_folder inside another folder folder_containing_the_content_folder
@@ -111,7 +112,9 @@ def stylize_folder(style_path, folder_containing_the_content_folder, save_folder
     image_loader = torch.utils.data.DataLoader(image_dataset, batch_size=batch_size)
 
     # Load Transformer Network
-    net = transformer.TransformerNetwork()
+    # net = transformer.TransformerNetwork()
+    net = experimental.TransformerResNextNetwork_Pruned(alpha=prune_level)
+    print(f"style path is {style_path}")
     net.load_state_dict(torch.load(style_path, map_location=torch.device('cpu')))
     net = net.to(device)
 
